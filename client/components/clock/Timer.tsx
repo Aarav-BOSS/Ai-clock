@@ -18,6 +18,7 @@ export default function Timer() {
   const [remaining, setRemaining] = useState(durationMs);
   const [running, setRunning] = useState(false);
   const lastRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!running) return;
@@ -25,16 +26,19 @@ export default function Timer() {
       if (lastRef.current == null) lastRef.current = now;
       const delta = now - lastRef.current;
       lastRef.current = now;
-      setRemaining((r) => Math.max(0, r - delta));
-      if (remaining <= 0) setRunning(false);
-      if (running) requestAnimationFrame(loop);
+      setRemaining((r) => {
+        const next = Math.max(0, r - delta);
+        if (next === 0) setRunning(false);
+        return next;
+      });
+      rafRef.current = requestAnimationFrame(loop);
     };
-    const id = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(id);
-  }, [running, remaining]);
+    rafRef.current = requestAnimationFrame(loop);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [running]);
 
   useEffect(() => {
-    if (!running) setRemaining(durationMs);
+    if (!running) { setRemaining(durationMs); lastRef.current = null; }
   }, [durationMs, running]);
 
   const progress = useMemo(() => 1 - remaining / durationMs, [remaining, durationMs]);
@@ -42,7 +46,7 @@ export default function Timer() {
   const setFromMinutes = (m: number) => setDurationMs(clamp(Math.round(m) * 60 * 1000, 0, 12 * 60 * 60 * 1000));
 
   const handleStartPause = () => setRunning((r) => !r);
-  const handleReset = () => { setRunning(false); setRemaining(durationMs); };
+  const handleReset = () => { setRunning(false); setRemaining(durationMs); lastRef.current = null; };
 
   const mins = Math.floor(durationMs / 60000);
   const secs = Math.floor((durationMs % 60000) / 1000);
