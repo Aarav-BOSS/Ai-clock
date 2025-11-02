@@ -30,4 +30,10 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+// HMR and multi-module safe root mounting
+const container = document.getElementById("root")!;
+const w = window as any;
+if (!w.__REACT_ROOT__) {
+  w.__REACT_ROOT__ = createRoot(container);
+}
+w.__REACT_ROOT__.render(<App />);
