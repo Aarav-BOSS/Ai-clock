@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 
-function clamp(n: number, min: number, max: number) { return Math.min(max, Math.max(min, n)); }
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
 function formatHMS(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
   const h = Math.floor(total / 3600);
@@ -34,19 +36,32 @@ export default function Timer() {
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, [running]);
 
   useEffect(() => {
-    if (!running) { setRemaining(durationMs); lastRef.current = null; }
+    if (!running) {
+      setRemaining(durationMs);
+      lastRef.current = null;
+    }
   }, [durationMs, running]);
 
-  const progress = useMemo(() => 1 - remaining / durationMs, [remaining, durationMs]);
+  const progress = useMemo(
+    () => 1 - remaining / durationMs,
+    [remaining, durationMs],
+  );
 
-  const setFromMinutes = (m: number) => setDurationMs(clamp(Math.round(m) * 60 * 1000, 0, 12 * 60 * 60 * 1000));
+  const setFromMinutes = (m: number) =>
+    setDurationMs(clamp(Math.round(m) * 60 * 1000, 0, 12 * 60 * 60 * 1000));
 
   const handleStartPause = () => setRunning((r) => !r);
-  const handleReset = () => { setRunning(false); setRemaining(durationMs); lastRef.current = null; };
+  const handleReset = () => {
+    setRunning(false);
+    setRemaining(durationMs);
+    lastRef.current = null;
+  };
 
   const mins = Math.floor(durationMs / 60000);
   const secs = Math.floor((durationMs % 60000) / 1000);
@@ -55,7 +70,10 @@ export default function Timer() {
     <div className="space-y-6">
       <div className="relative max-w-xl mx-auto">
         <div className="h-4 w-full rounded-full bg-secondary overflow-hidden">
-          <div className="h-full bg-primary transition-all" style={{ width: `${Math.min(100, Math.max(0, progress * 100))}%` }} />
+          <div
+            className="h-full bg-primary transition-all"
+            style={{ width: `${Math.min(100, Math.max(0, progress * 100))}%` }}
+          />
         </div>
         <div className="mt-4 text-center text-5xl md:text-6xl font-semibold tabular-nums">
           {formatHMS(remaining)}
@@ -64,20 +82,34 @@ export default function Timer() {
 
       <div className="grid gap-4 md:grid-cols-3 items-center max-w-2xl mx-auto">
         <div className="md:col-span-2">
-          <Slider value={[mins]} min={0} max={120} step={1} onValueChange={(v) => setFromMinutes(v[0])} />
+          <Slider
+            value={[mins]}
+            min={0}
+            max={120}
+            step={1}
+            onValueChange={(v) => setFromMinutes(v[0])}
+          />
         </div>
         <div className="flex gap-2">
           <Input
             type="number"
             value={mins}
-            onChange={(e) => setFromMinutes(parseInt(e.target.value || "0", 10))}
+            onChange={(e) =>
+              setFromMinutes(parseInt(e.target.value || "0", 10))
+            }
             className="w-24"
           />
           <span className="self-center text-sm text-muted-foreground">min</span>
           <Input
             type="number"
             value={secs}
-            onChange={(e) => setDurationMs((mins * 60 + clamp(parseInt(e.target.value || "0", 10), 0, 59)) * 1000)}
+            onChange={(e) =>
+              setDurationMs(
+                (mins * 60 +
+                  clamp(parseInt(e.target.value || "0", 10), 0, 59)) *
+                  1000,
+              )
+            }
             className="w-24"
           />
           <span className="self-center text-sm text-muted-foreground">sec</span>
@@ -85,11 +117,19 @@ export default function Timer() {
       </div>
 
       <div className="flex items-center justify-center gap-3">
-        <Button onClick={handleStartPause} className="min-w-24">{running ? "Pause" : "Start"}</Button>
-        <Button onClick={handleReset} variant="outline">Reset</Button>
+        <Button onClick={handleStartPause} className="min-w-24">
+          {running ? "Pause" : "Start"}
+        </Button>
+        <Button onClick={handleReset} variant="outline">
+          Reset
+        </Button>
         <div className="flex gap-2">
           {[60, 300, 600, 1500].map((s) => (
-            <Button key={s} variant="secondary" onClick={() => setDurationMs(s * 1000)}>
+            <Button
+              key={s}
+              variant="secondary"
+              onClick={() => setDurationMs(s * 1000)}
+            >
               {s >= 60 ? `${Math.round(s / 60)}m` : `${s}s`}
             </Button>
           ))}

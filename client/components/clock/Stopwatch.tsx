@@ -74,7 +74,9 @@ export default function Stopwatch() {
               key={i}
               className="flex items-center justify-between text-sm rounded-md border bg-card/50 px-3 py-2"
             >
-              <span className="text-muted-foreground">Lap {lapsRef.current.length - i}</span>
+              <span className="text-muted-foreground">
+                Lap {lapsRef.current.length - i}
+              </span>
               <span className="font-mono">{formatTime(l)}</span>
             </div>
           ))}

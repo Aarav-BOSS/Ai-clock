@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function format(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -33,7 +39,9 @@ export default function ChessClock() {
       raf.current = requestAnimationFrame(loop);
     };
     raf.current = requestAnimationFrame(loop);
-    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
   }, [running, active]);
 
   useEffect(() => {
@@ -43,9 +51,17 @@ export default function ChessClock() {
     setRunning(false);
   }, [baseMinutes]);
 
-  const start = () => { if (!active) setActive("black"); setRunning(true); };
+  const start = () => {
+    if (!active) setActive("black");
+    setRunning(true);
+  };
   const pause = () => setRunning(false);
-  const reset = () => { setRunning(false); setActive(null); setWhiteMs(baseMinutes * 60 * 1000); setBlackMs(baseMinutes * 60 * 1000); };
+  const reset = () => {
+    setRunning(false);
+    setActive(null);
+    setWhiteMs(baseMinutes * 60 * 1000);
+    setBlackMs(baseMinutes * 60 * 1000);
+  };
 
   const switchTurn = (to: Side) => {
     if (!running) return;
@@ -69,14 +85,18 @@ export default function ChessClock() {
           className={`aspect-video rounded-xl border p-6 text-left transition shadow-sm ${active === "white" ? "bg-primary/10 ring-2 ring-primary" : "bg-card/60"} ${done && whiteMs === 0 ? "opacity-60" : ""}`}
         >
           <div className="text-sm text-muted-foreground">White</div>
-          <div className="mt-2 text-4xl md:text-6xl font-bold tabular-nums">{format(whiteMs)}</div>
+          <div className="mt-2 text-4xl md:text-6xl font-bold tabular-nums">
+            {format(whiteMs)}
+          </div>
         </button>
         <button
           onClick={() => switchTurn("black")}
           className={`aspect-video rounded-xl border p-6 text-right transition shadow-sm ${active === "black" ? "bg-primary/10 ring-2 ring-primary" : "bg-card/60"} ${done && blackMs === 0 ? "opacity-60" : ""}`}
         >
           <div className="text-sm text-muted-foreground">Black</div>
-          <div className="mt-2 text-4xl md:text-6xl font-bold tabular-nums">{format(blackMs)}</div>
+          <div className="mt-2 text-4xl md:text-6xl font-bold tabular-nums">
+            {format(blackMs)}
+          </div>
         </button>
       </div>
 
@@ -86,31 +106,50 @@ export default function ChessClock() {
         ) : (
           <Button onClick={pause}>Pause</Button>
         )}
-        <Button variant="outline" onClick={reset}>Reset</Button>
+        <Button variant="outline" onClick={reset}>
+          Reset
+        </Button>
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Base</span>
-          <Select value={String(baseMinutes)} onValueChange={(v) => setBaseMinutes(parseInt(v, 10))}>
-            <SelectTrigger className="w-28"><SelectValue placeholder="Minutes" /></SelectTrigger>
+          <Select
+            value={String(baseMinutes)}
+            onValueChange={(v) => setBaseMinutes(parseInt(v, 10))}
+          >
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="Minutes" />
+            </SelectTrigger>
             <SelectContent>
-              {[1,3,5,10,15,30,60].map((m) => (
-                <SelectItem key={m} value={String(m)}>{m}m</SelectItem>
+              {[1, 3, 5, 10, 15, 30, 60].map((m) => (
+                <SelectItem key={m} value={String(m)}>
+                  {m}m
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Increment</span>
-          <Select value={String(incSeconds)} onValueChange={(v) => setIncSeconds(parseInt(v, 10))}>
-            <SelectTrigger className="w-28"><SelectValue placeholder="Inc" /></SelectTrigger>
+          <Select
+            value={String(incSeconds)}
+            onValueChange={(v) => setIncSeconds(parseInt(v, 10))}
+          >
+            <SelectTrigger className="w-28">
+              <SelectValue placeholder="Inc" />
+            </SelectTrigger>
             <SelectContent>
-              {[0,1,2,3,5,10].map((s) => (
-                <SelectItem key={s} value={String(s)}>{s}s</SelectItem>
+              {[0, 1, 2, 3, 5, 10].map((s) => (
+                <SelectItem key={s} value={String(s)}>
+                  {s}s
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
       </div>
-      <p className="text-center text-xs text-muted-foreground">Tap each side to switch turns. Increment is added to the player who just moved.</p>
+      <p className="text-center text-xs text-muted-foreground">
+        Tap each side to switch turns. Increment is added to the player who just
+        moved.
+      </p>
     </div>
   );
 }

@@ -28,7 +28,9 @@ function Navbar() {
           <span className="font-semibold tracking-tight">AI Clock Studio</span>
         </Link>
         <nav className="flex items-center gap-2">
-          <NavLink to="/" active={location.pathname === "/"}>Home</NavLink>
+          <NavLink to="/" active={location.pathname === "/"}>
+            Home
+          </NavLink>
           <ThemeToggle />
         </nav>
       </div>
@@ -36,13 +38,23 @@ function Navbar() {
   );
 }
 
-function NavLink({ to, children, active }: { to: string; children: React.ReactNode; active?: boolean }) {
+function NavLink({
+  to,
+  children,
+  active,
+}: {
+  to: string;
+  children: React.ReactNode;
+  active?: boolean;
+}) {
   return (
     <Link
       to={to}
       className={cn(
         "px-3 py-1.5 text-sm rounded-md border",
-        active ? "bg-primary text-primary-foreground border-transparent" : "hover:bg-accent text-foreground/80",
+        active
+          ? "bg-primary text-primary-foreground border-transparent"
+          : "hover:bg-accent text-foreground/80",
       )}
     >
       {children}
@@ -64,7 +76,12 @@ function ThemeToggle() {
     localStorage.setItem("theme:dark", String(dark));
   }, [dark]);
   return (
-    <Button variant="outline" size="icon" onClick={() => setDark((d) => !d)} aria-label="Toggle theme">
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={() => setDark((d) => !d)}
+      aria-label="Toggle theme"
+    >
       {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </Button>
   );

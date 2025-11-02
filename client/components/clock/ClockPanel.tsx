@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-function pad(n: number, l = 2) { return String(n).padStart(l, "0"); }
+function pad(n: number, l = 2) {
+  return String(n).padStart(l, "0");
+}
 
 export default function ClockPanel() {
   const [now, setNow] = useState(new Date());
@@ -39,7 +41,9 @@ export default function ClockPanel() {
       </div>
       <div className="text-center">
         <div className="text-sm text-muted-foreground">Local time</div>
-        <div className="mt-2 text-6xl md:text-7xl font-semibold tracking-tight tabular-nums drop-shadow-[0_0_20px_hsl(var(--primary)_/_25%)]">{display}</div>
+        <div className="mt-2 text-6xl md:text-7xl font-semibold tracking-tight tabular-nums drop-shadow-[0_0_20px_hsl(var(--primary)_/_25%)]">
+          {display}
+        </div>
         <div className="mt-3 text-muted-foreground">{now.toLocaleString()}</div>
       </div>
     </div>

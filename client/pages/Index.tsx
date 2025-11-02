@@ -26,13 +26,16 @@ export default function Index() {
       <section className="container py-10 md:py-16">
         <header className="flex flex-col items-center text-center gap-4">
           <div className="flex items-center gap-2 rounded-full border bg-background/50 px-3 py-1 text-xs text-muted-foreground">
-            <Sparkles className="size-3.5 text-primary" /> Built with intelligent focus on speed & precision
+            <Sparkles className="size-3.5 text-primary" /> Built with
+            intelligent focus on speed & precision
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
             AI Clock Studio
           </h1>
           <p className="max-w-2xl text-muted-foreground">
-            A beautiful, focused suite of time tools: world clock, stopwatch, countdown timer, and a competitive chess clock. Simple. Fast. Delightfully usable.
+            A beautiful, focused suite of time tools: world clock, stopwatch,
+            countdown timer, and a competitive chess clock. Simple. Fast.
+            Delightfully usable.
           </p>
         </header>
 
@@ -47,7 +50,9 @@ export default function Index() {
                 <TabsTrigger value="stopwatch">Stopwatch</TabsTrigger>
                 <TabsTrigger value="timer">Timer</TabsTrigger>
                 <TabsTrigger value="chess">Chess clock</TabsTrigger>
-                <TabsTrigger value="more" disabled>More soon</TabsTrigger>
+                <TabsTrigger value="more" disabled>
+                  More soon
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="clock" className="mt-8">
@@ -67,7 +72,10 @@ export default function Index() {
               </TabsContent>
 
               <TabsContent value="more" className="mt-8">
-                <div className="text-center text-muted-foreground">Pomodoro, lap export, and world time zones coming soon. Ask to add them!</div>
+                <div className="text-center text-muted-foreground">
+                  Pomodoro, lap export, and world time zones coming soon. Ask to
+                  add them!
+                </div>
               </TabsContent>
             </Tabs>
           </CardContent>
